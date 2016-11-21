@@ -8,24 +8,16 @@
 <table class="tg">
   <tr>
     <th class="tg-huad">city</th>
-    <th class="tg-i6eq">amor</th>
-    <th class="tg-i6eq">ira</th>
-    <th class="tg-i6eq">alegria</th>
-    <th class="tg-i6eq">sorpresa</th>
-    <th class="tg-i6eq">envidia</th>
-    <th class="tg-i6eq">tristeza</th>
-    <th class="tg-i6eq">miedo</th>
+    <th class="tg-i6eq">negative</th>
+    <th class="tg-i6eq">neutral</th>
+    <th class="tg-i6eq">positive</th>
   </tr>
 {% for measure in measures %}
   <tr>
     <td class="tg-i6eq">{{measure.city.name}}</td>
-    <td class="tg-i6eq">{{measure.amor}}</td>
-    <td class="tg-i6eq">{{measure.ira}}</td>
-    <td class="tg-i6eq">{{measure.alegria}}</td>
-    <td class="tg-i6eq">{{measure.sorpresa}}</td>
-    <td class="tg-i6eq">{{measure.envidia}}</td>
-    <td class="tg-i6eq">{{measure.tristeza}}</td>
-    <td class="tg-i6eq">{{measure.miedo}}</td>
+    <td class="tg-i6eq">{{measure.negative}}</td>
+    <td class="tg-i6eq">{{measure.neutral}}</td>
+    <td class="tg-i6eq">{{measure.positive}}</td>
   </tr>
 {% endfor %}
 </table>

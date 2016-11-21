@@ -16,10 +16,6 @@ class City(models.Model):
 
 class Measur(models.Model):
     city = models.ForeignKey(City,default=0)
-    amor = models.PositiveIntegerField(default=0)
-    ira = models.PositiveIntegerField(default=0)
-    alegria = models.PositiveIntegerField(default=0)
-    sorpresa = models.PositiveIntegerField(default=0)
-    envidia = models.PositiveIntegerField(default=0)
-    tristeza = models.PositiveIntegerField(default=0)
-    miedo = models.PositiveIntegerField(default=0)
+    negative = models.IntegerField(default=0)
+    neutral = models.IntegerField(default=0)
+    positive = models.IntegerField(default=0)

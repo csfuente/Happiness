@@ -1,15 +1,9 @@
-# -*- coding: latin-1 -*-
+# -*- coding: utf-8 -*-
 from django.shortcuts import render_to_response
 from models import Tweet, City, Measur
+import os, json
 
-AMOR_QUERY = [u"te quiero mucho",u"te quiero más",u"amo tanto",u"amo tanto",u"todo mi amor",u"muy enamorado",u"tan enamorada"]
-IRA_QUERY = [u"te odio",u"siento rabia",u"le odio",u"estoy furioso",u"estoy furiosa",u"crispado",u"estoy cabreado"]
-ALEGRIA_QUERY= [u"mas feliz",u"bastante feliz",u"tan feliz",u"muy feliz",u'gozo',u'júbilo',u'deleite',u'alborozo',u'juerga']
-SORPRESA_QUERY=[u"no me lo puedo creer",u"increible",u"asombro",u"me ha sorprendido",u"te ha sorprendido",u"cogido por sorpresa"]
-ENVIDIA_QUERY= [u"ambiciono",u"codicio",u"mucha envidia",u"yo quiero ser",u"por que no puedo",u"envidio",u"celoso"]
-TRISTEZA_QUERY=[u"muy triste",u"tan deprimido",u"estoy llorando",u"tengo el corazón roto",u"estoy triste",u"me quiero morir"]
-MIEDO_QUERY=[u"muy asustado",u"tan asustada",u"realmente asustado",u"terrorifico",u"tanto temor",u"que horror",u"aterrozizado"]
-
+def _removeNonAscii(s): return "".join(i for i in s if ord(i)<128)
 
 def results(request):
     cities = City.objects.all()
@@ -20,28 +14,22 @@ def results(request):
     for city in cities:
         tweets = Tweet.objects.filter(city=str(city.name))
         calculo = Measur(city=city)
+        text = u''
         for tweet in tweets:
-            for amor in AMOR_QUERY:
-                if amor in tweet.text:
-                    calculo.amor += 1
-            for ira in IRA_QUERY:
-                if ira in tweet.text:
-                    calculo.ira += 1
-            for alegria in ALEGRIA_QUERY:
-                if alegria in tweet.text:
-                    calculo.alegria += 1
-            for sorpresa in SORPRESA_QUERY:
-                if sorpresa in tweet.text:
-                    calculo.sorpresa += 1
-            for envidia in ENVIDIA_QUERY:
-                if envidia in tweet.text:
-                    calculo.envidia += 1
-            for tristeza in TRISTEZA_QUERY:
-                if tristeza in tweet.text:
-                    calculo.tristeza += 1
-            for miedo in MIEDO_QUERY:
-                if miedo in tweet.text:
-                    calculo.miedo += 1
+            text += "{'text': '%s'}," % _removeNonAscii(tweet.text.replace('\n','').replace('"','').replace("'",''))
+        pop = """curl -d "{'data': [%s]}" http://www.sentiment140.com/api/bulkClassifyJson""" % unicode(text)
+        print pop
+        response = os.popen(pop)
+        response = json.load(response)
+
+        for result in response['data']:
+            if result['polarity']==0:
+                calculo.negative += 1
+            elif result['polarity']==2:
+                calculo.neutral +=1
+            elif result['polarity']==4:
+                calculo.positive += 1
+            
         calculo.save()
 
     measures = Measur.objects.all()
