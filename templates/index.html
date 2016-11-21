@@ -1,0 +1,31 @@
+<style type="text/css">
+.tg  {border-collapse:collapse;border-spacing:0;}
+.tg td{font-family:Arial, sans-serif;font-size:14px;padding:10px 5px;border-style:solid;border-width:1px;overflow:hidden;word-break:normal;}
+.tg th{font-family:Arial, sans-serif;font-size:14px;font-weight:normal;padding:10px 5px;border-style:solid;border-width:1px;overflow:hidden;word-break:normal;}
+.tg .tg-huad{background-color:#ffccc9}
+.tg .tg-i6eq{background-color:#ffccc9;vertical-align:top}
+</style>
+<table class="tg">
+  <tr>
+    <th class="tg-huad">city</th>
+    <th class="tg-i6eq">amor</th>
+    <th class="tg-i6eq">ira</th>
+    <th class="tg-i6eq">alegria</th>
+    <th class="tg-i6eq">sorpresa</th>
+    <th class="tg-i6eq">envidia</th>
+    <th class="tg-i6eq">tristeza</th>
+    <th class="tg-i6eq">miedo</th>
+  </tr>
+{% for measure in measures %}
+  <tr>
+    <td class="tg-i6eq">{{measure.city.name}}</td>
+    <td class="tg-i6eq">{{measure.amor}}</td>
+    <td class="tg-i6eq">{{measure.ira}}</td>
+    <td class="tg-i6eq">{{measure.alegria}}</td>
+    <td class="tg-i6eq">{{measure.sorpresa}}</td>
+    <td class="tg-i6eq">{{measure.envidia}}</td>
+    <td class="tg-i6eq">{{measure.tristeza}}</td>
+    <td class="tg-i6eq">{{measure.miedo}}</td>
+  </tr>
+{% endfor %}
+</table>
